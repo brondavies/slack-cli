@@ -101,7 +101,7 @@ namespace slack
                 }
                 else if (!IsAttachmentsFile(attachments))
                 {
-                    return Abort($"Invalid attachments file format. See --help attachments");
+                    return Abort($"Invalid attachments file format. See {opt_help_long} attachments");
                 }
             }
             return true;

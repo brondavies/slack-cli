@@ -92,6 +92,7 @@ namespace slack
             }
             catch
             {
+                print($"Warning: {iconemoji} was not recognized as an iconemoji option. Use {opt_help_long} iconemoji for more information.");
                 return defaultEmoji;
             }
         }

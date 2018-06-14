@@ -2,6 +2,7 @@
 using Slack.Webhooks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace slack
 {
@@ -32,7 +33,7 @@ Usage: slack [options] ""<message>""
     {opt_username_short}, {opt_username_long}      Supply the username to post this message as. This can also be set in slack.exe.config at appSettings/Slack:Username
     {opt_iconemoji_short}, {opt_iconemoji_long}     Supply the emoji to post with this message. This can also be set in slack.exe.config at appSettings/Slack:IconEmoji
     {opt_iconurl_short}, {opt_iconurl_long}       Supply the icon url to post with this message. Overrides {opt_iconemoji_long}. This can also be set in slack.exe.config at appSettings/Slack:IconUrl
-    {opt_attachments_short}, {opt_attachments_long}   Supply the path to a json formatted file that describes the message attachments. Use --help attachments for more information
+    {opt_attachments_short}, {opt_attachments_long}   Supply the path to a json formatted file that describes the message attachments. Use {opt_help_long} attachments for more information
     {opt_help_short}, {opt_help_long}          Show this help message or extended help for other command options
 
     Required:
@@ -51,6 +52,9 @@ Usage: slack [options] ""<message>""
                 case "attachments":
                     AttachmentsHelp();
                     break;
+                case "iconemoji":
+                    IconEmojiHelp();
+                    break;
                 default:
                     Abort($"Can't help with subject \"{subject}\"");
                     break;
@@ -62,6 +66,13 @@ Usage: slack [options] ""<message>""
             print($@"The commandline option {opt_attachments_long} <filename> is used to supply optional attachments and their properties.  Here is an example of an attachments description JSON file:");
             print("");
             print(exampleAttachments);
+        }
+
+        private static void IconEmojiHelp()
+        {
+            print($"The commandline option {opt_iconemoji_long} <emoji> is used to supply a built-in Slack emoji for the main icon associated with the message.");
+            print("");
+            print($"Valid values for <emoji> are case insensitive:\n\t{exampleIconEmoji}");
         }
 
         private static string exampleAttachments
@@ -83,11 +94,13 @@ Usage: slack [options] ""<message>""
                     Value = "Action 1 Value"
                 });
                 List<SlackField> fields = new List<SlackField>();
-                fields.Add(new SlackField {
+                fields.Add(new SlackField
+                {
                     Title = "Field Title",
                     Value = "Field Value"
                 });
-                list.Add(new SlackAttachment {
+                list.Add(new SlackAttachment
+                {
                     Actions = actions,
                     AuthorIcon = $"{example}author.png",
                     AuthorLink = $"{example}author/profile",
@@ -107,6 +120,15 @@ Usage: slack [options] ""<message>""
                     TitleLink = $"{example}attachment.pdf"
                 });
                 return JsonConvert.SerializeObject(list, Formatting.Indented);
+            }
+        }
+
+        private static string exampleIconEmoji
+        {
+            get
+            {
+                var list = from Emoji e in Enum.GetValues(typeof(Emoji)) select e.ToString();
+                return string.Join("\n\t", list);
             }
         }
     }
