@@ -6,17 +6,17 @@ using System.Linq;
 
 namespace slack
 {
-    partial class Program
+    partial class SlackCli
     {
         const string opt_webhook_long = "--webhook";
-        const string opt_channel_long = "--channel";
+        const string opt_console_long = "--console";
         const string opt_username_long = "--username";
         const string opt_iconemoji_long = "--iconemoji";
         const string opt_iconurl_long = "--iconurl";
         const string opt_attachments_long = "--attachments";
         const string opt_help_long = "--help";
         const string opt_webhook_short = "-w";
-        const string opt_channel_short = "-c";
+        const string opt_console_short = "-c";
         const string opt_username_short = "-u";
         const string opt_iconemoji_short = "-e";
         const string opt_iconurl_short = "-i";
@@ -29,7 +29,7 @@ namespace slack
 Usage: slack [options] ""<message>""
     Options:
     {opt_webhook_short}, {opt_webhook_long}       Supply the url to post this message to. This can also be set in slack.exe.config at appSettings/Slack:Webhook
-    {opt_channel_short}, {opt_channel_long}       Supply the channel to post this message to. This can also be set in slack.exe.config at appSettings/Slack:Channel
+    {opt_console_short}, {opt_console_long}       Supply the text for the message as interactive input or redirected input
     {opt_username_short}, {opt_username_long}      Supply the username to post this message as. This can also be set in slack.exe.config at appSettings/Slack:Username
     {opt_iconemoji_short}, {opt_iconemoji_long}     Supply the emoji to post with this message. This can also be set in slack.exe.config at appSettings/Slack:IconEmoji
     {opt_iconurl_short}, {opt_iconurl_long}       Supply the icon url to post with this message. Overrides {opt_iconemoji_long}. This can also be set in slack.exe.config at appSettings/Slack:IconUrl
@@ -40,8 +40,8 @@ Usage: slack [options] ""<message>""
     <message>   The message to send.  You should enclose this string in quotes
     
     Examples:
-    slack {opt_channel_short} #random {opt_username_short} my-bot ""Hello I'm a bot!""
-    slack {opt_channel_long} #random {opt_username_long} my-bot ""Hello I'm a bot!""
+    slack #random {opt_username_short} my-bot ""Hello I'm a bot!""
+    slack #random {opt_username_long} my-bot ""Hello I'm a bot!""
 ".Trim());
         }
 

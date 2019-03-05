@@ -2,7 +2,7 @@
 
 namespace slack
 {
-    partial class Program
+    partial class SlackCli
     {
         private static string Config(string name)
         {

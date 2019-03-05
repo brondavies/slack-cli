@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace slack
 {
-    partial class Program
+    partial class SlackCli
     {
         private static bool ParseCommandLine(string[] args)
         {
@@ -24,10 +24,9 @@ namespace slack
                             webhookUrl = args[index];
                             break;
 
-                        case opt_channel_long:
-                        case opt_channel_short:
-                            index++;
-                            channel = args[index];
+                        case opt_console_long:
+                        case opt_console_short:
+                            message = $"{message}{ReadStdIn()}";
                             break;
 
                         case opt_username_long:
@@ -105,6 +104,28 @@ namespace slack
                 }
             }
             return true;
+        }
+
+        private static string ReadStdIn()
+        {
+            string result = null;
+            if (Console.IsInputRedirected)
+            {
+                using (var reader = Console.In)
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+            else
+            {
+                string line = "";
+                do
+                {
+                    line = Console.ReadLine();
+                    result = $"{result}\n{line}";
+                } while (!string.IsNullOrWhiteSpace(line));
+            }
+            return result.Trim();
         }
 
         private static bool IsAttachmentsFile(string filename)

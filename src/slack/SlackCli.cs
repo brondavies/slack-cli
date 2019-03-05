@@ -6,10 +6,9 @@ using Slack.Webhooks;
 
 namespace slack
 {
-    partial class Program
+    partial class SlackCli
     {
         static string webhookUrl = Config("Slack:Webhook");
-        static string channel = Config("Slack:Channel");
         static string username = Config("Slack:Username");
         static string iconemoji = Config("Slack:IconEmoji");
         static string iconUrl = Config("Slack:IconUrl");
@@ -61,10 +60,6 @@ namespace slack
             if (!username.IsNull())
             {
                 slackMessage.Username = username;
-            }
-            if (!channel.IsNull())
-            {
-                slackMessage.Channel = channel;
             }
             if (!iconUrl.IsNull())
             {
